@@ -32,6 +32,10 @@ def logout_user
 	session.destroy if session
 end
 
+def user_session
+  @session ||= UserSession.find
+end
+
 #
 # Cucumber Assertions
 #
@@ -58,16 +62,16 @@ When /^I logout$/ do
 end
 
 Then /^there should be a session$/ do
-  @session = UserSession.find
+  user_session
   @session.should_not be nil
 end
 
 Then /^there should not be a session$/ do
-  @session = UserSession.find
+  user_session
   @session.should be nil
 end
 
 Then /^the user should be "([^"]*)"$/ do |login| #"
-  @session = UserSession.find
+  user_session
   @session.user.login.should be == login
 end
